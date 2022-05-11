@@ -17,6 +17,6 @@ describe("When NotFound renders", () => {
   it("displays a heading", () => {
     const notFound = shallow(<NotFound />)
     const notFoundHeadingText = notFound.find("h3").text()
-    expect(homeHeadingText).toEqual("Ooops, no cats here!")
+    expect(notFoundHeadingText).toEqual("Ooops, no cats here!")
   })
 })
