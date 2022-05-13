@@ -29,7 +29,7 @@ class CatNew extends Component {
 
   render() {
     return(
-      <>
+      <div className="page-body">
         <h2>Create a New Cat</h2>
         <Form>
           <FormGroup>
@@ -69,7 +69,7 @@ class CatNew extends Component {
           Submit Cat
         </Button>
         { this.state.submitted && <Redirect to="/catindex"/> }
-      </>
+      </div>
     )
   }
 }
