@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import './App.css'
-import cats from './mockCats.js'
 import {
   BrowserRouter as Router,
   Route,
@@ -21,12 +20,32 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      cats: cats
+      cats: []
     }
   }
 
+  componentDidMount() {
+    this.readCat()
+  }
+
+  readCat = () => {
+    fetch("http://localhost:3000/cats")
+    .then(response => response.json())
+    .then(payload => this.setState({cats: payload}))
+    .catch(errors => console.log("Cat read errors:", errors))
+  }
+
   createCat = (newlyCreatedCat) => {
-    console.log(newlyCreatedCat)
+    fetch("http://localhost:3000/cats", {
+      body: JSON.stringify(newlyCreatedCat),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: "POST"
+    })
+    .then(response => response.json())
+    .then(() => this.readCat())
+    .catch(errors => console.log("Cat create errors:", errors))
   }
 
   render() {
@@ -48,14 +67,12 @@ class App extends Component {
             }}
           />
           <Route path="/catedit" component={CatEdit} />
-
           <Route
             path="/catnew"
             render={() => {
               return <CatNew createCat={this.createCat}/>
             }}
           />
-
           <Route component={NotFound} />
         </Switch>
         <Footer />
