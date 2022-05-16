@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Card, CardTitle, CardText } from 'reactstrap'
+import { Card, CardTitle, CardText } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
 
 class CatShow extends Component {
@@ -14,6 +14,10 @@ class CatShow extends Component {
           <CardText>I am {cat.age} years old</CardText>
           <CardText>I enjoy {cat.enjoys}</CardText>
           <img src={cat.image} alt="cat profile"/>
+          <br />
+          <NavLink to={`/catedit/${cat.id}`} className="nav-link">
+            Edit Cat Profile
+          </NavLink>
         </Card>
        }
      </div>

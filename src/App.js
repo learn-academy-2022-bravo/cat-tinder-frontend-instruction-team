@@ -48,6 +48,20 @@ class App extends Component {
     .catch(errors => console.log("Cat create errors:", errors))
   }
 
+  updateCat = (newlyUpdatedCat, id) => {
+    console.log(newlyUpdatedCat, id)
+    fetch(`http://localhost:3000/cats/${id}`, {
+      body: JSON.stringify(newlyUpdatedCat),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: "PATCH"
+    })
+    .then(response => response.json())
+    .then(() => this.readCat())
+    .catch(errors => console.log("Cat update errors:", errors))
+  }
+
   render() {
     return(
       <Router>
@@ -63,14 +77,21 @@ class App extends Component {
             render={(props) => {
               let id = +props.match.params.id
               let cat = this.state.cats.find(catObject => catObject.id === id)
-              return <CatShow cat={cat}/>
+              return <CatShow cat={cat} />
             }}
           />
-          <Route path="/catedit" component={CatEdit} />
+          <Route
+            path="/catedit/:id"
+            render={(props) => {
+              let id = +props.match.params.id
+              let cat = this.state.cats.find(catObject => catObject.id === id)
+              return <CatEdit cat={cat} updateCat={this.updateCat} />
+            }}
+          />
           <Route
             path="/catnew"
             render={() => {
-              return <CatNew createCat={this.createCat}/>
+              return <CatNew createCat={this.createCat} />
             }}
           />
           <Route component={NotFound} />
