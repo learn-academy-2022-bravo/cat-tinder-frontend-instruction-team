@@ -18,6 +18,11 @@ class CatShow extends Component {
           <NavLink to={`/catedit/${cat.id}`} className="nav-link">
             Edit Cat Profile
           </NavLink>
+          <NavLink to="/catindex" className="nav-link">
+            <div onClick={() => this.props.deleteCat(cat.id)}>
+              Delete Cat Profile
+            </div>
+          </NavLink>
         </Card>
        }
      </div>
