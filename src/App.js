@@ -49,7 +49,6 @@ class App extends Component {
   }
 
   updateCat = (newlyUpdatedCat, id) => {
-    console.log(newlyUpdatedCat, id)
     fetch(`http://localhost:3000/cats/${id}`, {
       body: JSON.stringify(newlyUpdatedCat),
       headers: {
@@ -60,6 +59,18 @@ class App extends Component {
     .then(response => response.json())
     .then(() => this.readCat())
     .catch(errors => console.log("Cat update errors:", errors))
+  }
+
+  deleteCat = (id) => {
+    fetch(`http://localhost:3000/cats/${id}`, {
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: "DELETE"
+    })
+    .then(response => response.json())
+    .then(() => this.readCat())
+    .catch(errors => console.log("Cat delete errors:", errors))
   }
 
   render() {
@@ -77,7 +88,7 @@ class App extends Component {
             render={(props) => {
               let id = +props.match.params.id
               let cat = this.state.cats.find(catObject => catObject.id === id)
-              return <CatShow cat={cat} />
+              return <CatShow cat={cat} deleteCat={this.deleteCat} />
             }}
           />
           <Route
